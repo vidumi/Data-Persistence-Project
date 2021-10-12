@@ -21,14 +21,16 @@ public class MainManager : MonoBehaviour
     
     private bool m_GameOver = false;
 
+    private int intBestScore = 0;
+
     
     // Start is called before the first frame update
     void Start()
     {
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
-        
-        int[] pointCountArray = new [] {1,1,2,2,5,5};
+
+        int[] pointCountArray = new[] { 1, 1, 2, 2, 5, 5 };
         for (int i = 0; i < LineCount; ++i)
         {
             for (int x = 0; x < perLine; ++x)
@@ -39,8 +41,20 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+        BestPlayer(); //ADD
+    }
 
-        bestScorePlayer.text = "Best Score: " + GameManager.Instance.playerName + " : " + GameManager.Instance.bestScore;  //ADD
+    private void BestPlayer() //ADD
+    {      
+       if (GameManager.Instance.bestScore == "")
+        {
+            intBestScore = 0;
+        }
+        else
+        {
+        intBestScore = System.Convert.ToInt32(GameManager.Instance.bestScore);
+        bestScorePlayer.text = "Best Score: " + GameManager.Instance.bestPlayerName + " : " + GameManager.Instance.bestScore;  //ADD
+        }
     }
 
     private void Update()
@@ -56,7 +70,9 @@ public class MainManager : MonoBehaviour
 
                 Ball.transform.SetParent(null);
                 Ball.AddForce(forceDir * 2.0f, ForceMode.VelocityChange);
+
             }
+
         }
         else if (m_GameOver)
         {
@@ -71,20 +87,29 @@ public class MainManager : MonoBehaviour
     {
         m_Points += point;
         ScoreText.text = $"Score : {m_Points}";
-       // GameManager.Instance.bestScore = ScoreText.text;
-        GameManager.Instance.bestScore = m_Points.ToString();
     }
 
     public void GameOver()
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
-        GameManager.Instance.SavePlayerData();
+
+        SaveBestPlayer(); //ADD
+    }
+
+    private void SaveBestPlayer() //ADD
+    {
+        if (m_Points > intBestScore)
+        {
+            GameManager.Instance.bestScore = m_Points.ToString();
+            GameManager.Instance.bestPlayerName = GameManager.Instance.currentPlayerName;
+            GameManager.Instance.SavePlayerData();
+        }
     }
 
     public void LoadMenu() // ADD
     {
         SceneManager.LoadScene(0);
-        GameManager.Instance.SavePlayerData();
+        SaveBestPlayer();
     }
 }

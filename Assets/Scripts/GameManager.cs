@@ -7,7 +7,8 @@ using System.IO;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    public string playerName;
+    public string currentPlayerName;
+    public string bestPlayerName;
     public string bestScore;
 
 
@@ -23,19 +24,21 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         LoadPlayerData();
-        Debug.Log(Application.persistentDataPath);
+       // Debug.Log(Application.persistentDataPath);
     }
 
     [System.Serializable]
     class SaveData
     {
-        public string playerName;
+        public string currentPlayerName;
+        public string bestPlayerName;
         public string bestScore;
     }
     public void SavePlayerData()
     {
         SaveData data = new SaveData();
-        data.playerName = playerName;
+        data.currentPlayerName = currentPlayerName;
+        data.bestPlayerName = bestPlayerName;
         data.bestScore = bestScore;
 
         string json = JsonUtility.ToJson(data);
@@ -52,7 +55,8 @@ public class GameManager : MonoBehaviour
             string json = File.ReadAllText(path);
             SaveData data = JsonUtility.FromJson<SaveData>(json);
 
-            playerName = data.playerName;
+            currentPlayerName = data.currentPlayerName;
+            bestPlayerName = data.bestPlayerName;
             bestScore = data.bestScore;
         }
     }

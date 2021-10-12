@@ -12,23 +12,23 @@ public class MenuUi : MonoBehaviour
 
     public GameObject inputField;
     public Text bestScorePlayer;
+    public GameObject alertPanel;
     private void Start()
     {
-        bestScorePlayer.text = "Best Score: " + GameManager.Instance.playerName + " : " + GameManager.Instance.bestScore;
+        bestScorePlayer.text = "Best Score: " + GameManager.Instance.bestPlayerName + " : " + GameManager.Instance.bestScore;
     }
 
     public void StartNew()
     {
         if (inputField.GetComponent<Text>().text == "")
         {
+            alertPanel.gameObject.SetActive(true);
             return;
         }
 
-        StoreName();
+        StoreCurrentName();
         GameManager.Instance.SavePlayerData();
         SceneManager.LoadScene(1);
-        Debug.Log(inputField);
-
     }
 
     public void Exit()
@@ -42,10 +42,9 @@ public class MenuUi : MonoBehaviour
 
     }
 
-
-    public void StoreName()
+    public void StoreCurrentName()
     {
-        GameManager.Instance.playerName = inputField.GetComponent<Text>().text;
+        GameManager.Instance.currentPlayerName = inputField.GetComponent<Text>().text;
     }
 
 }
