@@ -1242,7 +1242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputField: {fileID: 1286912775}
-  lastPlayer: {fileID: 1608312542}
+  bestScorePlayer: {fileID: 1608312542}
 --- !u!1 &1233983423
 GameObject:
   m_ObjectHideFlags: 0

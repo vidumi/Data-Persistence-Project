@@ -13,7 +13,7 @@ public class MainManager : MonoBehaviour
     public Text ScoreText;
     public GameObject GameOverText;
 
-    public GameObject playerNameDisplay; //ADD
+    public Text bestScorePlayer; //ADD
 
 
     private bool m_Started = false;
@@ -39,7 +39,8 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
-        playerNameDisplay.GetComponent<Text>().text = "Best Score: " + GameManager.Instance.playerName + " " + GameManager.Instance.bestScore; //ADD
+
+        bestScorePlayer.text = "Best Score: " + GameManager.Instance.playerName + " : " + GameManager.Instance.bestScore;  //ADD
     }
 
     private void Update()
